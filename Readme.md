@@ -1,7 +1,7 @@
 # Личный проект «Кексобукинг» [![Build status][travis-image]][travis-url]
 
 * Студент: [Мария Углова](https://up.htmlacademy.ru/javascript/19/user/1321951).
-* Наставник: `Артём Кочетков`.
+* Наставник: [Артём Кочетков](https://htmlacademy.ru/profile/keksik)
 
 ---
 
