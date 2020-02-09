@@ -14,12 +14,9 @@ var titles = [
   'Заголовок объявления 7',
   'Заголовок объявления 8'
 ];
-var advertisements = [];
-var fragment = document.createDocumentFragment(); // пустой фрагмент
-var mapPins = document.querySelector('.map__pins');
-var mapPin = document.querySelector('#pin').content.querySelector('.map__pin');
-var mapPinsWidth = mapPins.offsetWidth;
-var mapPinsHeight = mapPins.offsetHeight;
+var mapPinsElement = document.querySelector('.map__pins');
+var mapPinTemplate = document.querySelector('#pin').content.querySelector('.map__pin');
+var mapPinsWidth = mapPinsElement.offsetWidth;
 
 var randomizeInteger = function (min, max) {
   var rand = min + Math.random() * (max - min);
@@ -28,6 +25,7 @@ var randomizeInteger = function (min, max) {
 };
 
 var pushMapPinsPropety = function () {
+  var advertisements = [];
   for (var i = 0; i < 8; i++) {
     advertisements.push({
       author: {
@@ -35,7 +33,7 @@ var pushMapPinsPropety = function () {
       },
       offer: {
         title: titles[i],
-        address: [location.x, location.y],
+        address: [location.x, location.y].toString(),
         price: 500,
         type: 'palace',
         rooms: 5,
@@ -47,35 +45,32 @@ var pushMapPinsPropety = function () {
         photos: ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0.github.io/assets/images/tokyo/hotel3.jpg']
       },
       location: {
-        x: randomizeInteger(mapPinsWidth, mapPinsHeight),
+        x: randomizeInteger(PIN_WIDTH, mapPinsWidth - PIN_WIDTH / 2),
         y: randomizeInteger(130, 630)
       }
     });
   }
+  return advertisements;
 };
 
-/* клонируем mapPin */
-var cloneMapPin = function (advertisement) {
-  var mapPinElement = mapPin.cloneNode(true);
+/* клонируем mapPin и создаем свойства */
+var createMapPin = function (advertisement) {
+  var mapPinElement = mapPinTemplate.cloneNode(true);
   mapPinElement.querySelector('img').setAttribute('src', advertisement.author.avatar);
   mapPinElement.querySelector('img').setAttribute('alt', advertisement.offer.title);
-  mapPinElement.style.left = advertisement.location.x + PIN_WIDTH / 2 + 'px';
-  mapPinElement.style.top = advertisement.location.y + PIN_HEIGHT + 'px';
+  mapPinElement.style.left = advertisement.location.x - PIN_WIDTH / 2 + 'px';
+  mapPinElement.style.top = advertisement.location.y - PIN_HEIGHT + 'px';
 
   return mapPinElement;
 };
 
-/* размножаем 8 раз fragment с mapPin внутри */
-var cloneFragment = function () {
+/* размножаем 8 раз fragment с mapPin внутри и вставляем в mapPinsElement */
+var cloneFragment = function (array) {
+  var fragment = document.createDocumentFragment(); // пустой фрагмент
   for (var i = 0; i < 8; i++) {
-    fragment.appendChild(cloneMapPin(advertisements[i]));
+    fragment.appendChild(createMapPin(array[i]));
   }
+  mapPinsElement.appendChild(fragment);
 };
 
-pushMapPinsPropety();
-
-cloneFragment();
-
-/* вставляем фрагмент в mapPins */
-mapPins.appendChild(fragment);
-
+cloneFragment(pushMapPinsPropety());
