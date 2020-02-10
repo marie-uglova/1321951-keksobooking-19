@@ -15,7 +15,6 @@ var titles = [
   'Заголовок объявления 8'
 ];
 var mapPinsElement = document.querySelector('.map__pins');
-var mapPinTemplate = document.querySelector('#pin').content.querySelector('.map__pin');
 var mapPinsWidth = mapPinsElement.offsetWidth;
 
 var randomizeInteger = function (min, max) {
@@ -24,7 +23,7 @@ var randomizeInteger = function (min, max) {
   return Math.floor(rand);
 };
 
-var pushMapPinsPropety = function () {
+var generateAdvertisements = function () {
   var advertisements = [];
   for (var i = 0; i < 8; i++) {
     advertisements.push({
@@ -45,7 +44,7 @@ var pushMapPinsPropety = function () {
         photos: ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0.github.io/assets/images/tokyo/hotel3.jpg']
       },
       location: {
-        x: randomizeInteger(PIN_WIDTH, mapPinsWidth - PIN_WIDTH / 2),
+        x: randomizeInteger(0, mapPinsWidth),
         y: randomizeInteger(130, 630)
       }
     });
@@ -53,8 +52,11 @@ var pushMapPinsPropety = function () {
   return advertisements;
 };
 
+var advertisements = generateAdvertisements();
+
 /* клонируем mapPin и создаем свойства */
 var createMapPin = function (advertisement) {
+  var mapPinTemplate = document.querySelector('#pin').content.querySelector('.map__pin');
   var mapPinElement = mapPinTemplate.cloneNode(true);
   mapPinElement.querySelector('img').setAttribute('src', advertisement.author.avatar);
   mapPinElement.querySelector('img').setAttribute('alt', advertisement.offer.title);
@@ -65,7 +67,7 @@ var createMapPin = function (advertisement) {
 };
 
 /* размножаем 8 раз fragment с mapPin внутри и вставляем в mapPinsElement */
-var cloneFragment = function (array) {
+var renderAdvertisements = function (array) {
   var fragment = document.createDocumentFragment(); // пустой фрагмент
   for (var i = 0; i < 8; i++) {
     fragment.appendChild(createMapPin(array[i]));
@@ -73,4 +75,4 @@ var cloneFragment = function (array) {
   mapPinsElement.appendChild(fragment);
 };
 
-cloneFragment(pushMapPinsPropety());
+renderAdvertisements(advertisements);
