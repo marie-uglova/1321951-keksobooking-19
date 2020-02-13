@@ -1,6 +1,10 @@
 'use strict';
 
-document.querySelector('.map').classList.remove('map--faded');
+var allInputsAndSelects = document.querySelectorAll('.ad-form input, .ad-form select, ' +
+  '.map__filters input, .map__filters select, .ad-form textarea, .ad-form__submit');
+for (var i = 0; i < allInputsAndSelects.length; i++) {
+  allInputsAndSelects[i].setAttribute('disabled', 'disabled');
+}
 
 var PIN_WIDTH = 50;
 var PIN_HEIGHT = 70;
@@ -16,6 +20,10 @@ var titles = [
 ];
 var mapPinsElement = document.querySelector('.map__pins');
 var mapPinsWidth = mapPinsElement.offsetWidth;
+var mapPinTemplate = document.querySelector('#pin').content.querySelector('.map__pin');
+var mapPinMain = document.querySelector('.map__pin--main');
+var mapFilter = document.querySelector('.map');
+var mainForm = document.querySelector('.ad-form');
 
 var randomizeInteger = function (min, max) {
   var rand = min + Math.random() * (max - min);
@@ -56,7 +64,6 @@ var advertisements = generateAdvertisements();
 
 /* клонируем mapPin и создаем свойства */
 var createMapPin = function (advertisement) {
-  var mapPinTemplate = document.querySelector('#pin').content.querySelector('.map__pin');
   var mapPinElement = mapPinTemplate.cloneNode(true);
   mapPinElement.querySelector('img').setAttribute('src', advertisement.author.avatar);
   mapPinElement.querySelector('img').setAttribute('alt', advertisement.offer.title);
@@ -76,3 +83,25 @@ var renderAdvertisements = function (array) {
 };
 
 renderAdvertisements(advertisements);
+
+var activateInputsAndSelects = function () {
+  for (var i = 0; i < allInputsAndSelects.length; i++) {
+    allInputsAndSelects[i].removeAttribute('disabled', 'disabled');
+  }
+};
+
+mapPinMain.addEventListener('mousedown', function (evt) {
+  if (evt.button === 0) {
+    activateInputsAndSelects();
+    mapFilter.classList.remove('map--faded');
+    mainForm.classList.remove('ad-form--disabled');
+  }
+});
+
+mapPinMain.addEventListener('keydown', function (evt) {
+  if (evt.code === 'Enter') {
+    activateInputsAndSelects();
+    mapFilter.classList.remove('map--faded');
+    mainForm.classList.remove('ad-form--disabled');
+  }
+});
