@@ -12,9 +12,10 @@
     'Заголовок объявления 7',
     'Заголовок объявления 8'
   ];
-  var mapPinsWidth = window.pin.mapPinsElement.offsetWidth;
+  var mapPinsElement = document.querySelector('.map__pins');
+  var mapPinsWidth = mapPinsElement.offsetWidth;
 
-  var generateAdvertisements = function () {
+  function generateAdvertisements() {
     var advertisements = [];
     for (var i = 0; i < 8; i++) {
       advertisements.push({
@@ -35,16 +36,16 @@
           photos: ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0.github.io/assets/images/tokyo/hotel3.jpg']
         },
         location: {
-          x: window.data.randomizeInteger(0, mapPinsWidth),
-          y: window.data.randomizeInteger(130, 630)
+          x: window.utils.randomizeInteger(0, mapPinsWidth),
+          y: window.utils.randomizeInteger(130, 630)
         }
       });
     }
     return advertisements;
-  };
+  }
 
   var advertisements = generateAdvertisements();
 
-  window.pin.renderAdvertisements(advertisements);
+  window.map.renderAdvertisements(advertisements);
 
 })();

@@ -2,8 +2,6 @@
 
 (function () {
 
-  var MOUSE_KEY_LEFT = 0;
-
   var allInputsAndSelects = document.querySelectorAll('.ad-form fieldset');
   var mapFilterElement = document.querySelector('.map');
   var mainFormElement = document.querySelector('.ad-form');
@@ -11,13 +9,13 @@
   disableInputsAndSelects();
 
   window.form.mapPinMainElement.addEventListener('mousedown', function (evt) {
-    if (evt.button === MOUSE_KEY_LEFT) {
+    if (evt.button === window.utils.MOUSE_KEY_LEFT) {
       activateForm();
     }
   });
 
   window.form.mapPinMainElement.addEventListener('keydown', function (evt) {
-    if (evt.code === 'Enter') {
+    if (evt.code === window.utils.ENTER_CODE) {
       activateForm();
     }
   });
@@ -30,7 +28,7 @@
 
   function activateForm() {
     activateInputsAndSelects();
-    window.form.activateMapPinMainCoordinates();
+    window.form.setMapPinMainCoordinates();
     mapFilterElement.classList.remove('map--faded');
     mainFormElement.classList.remove('ad-form--disabled');
   }
@@ -41,5 +39,18 @@
     }
     );
   }
+
+  /* размножаем 8 раз fragment с mapPin внутри и вставляем в mapPinsElement */
+  function renderAdvertisements(array) {
+    var fragment = document.createDocumentFragment(); // пустой фрагмент
+    for (var i = 0; i < 8; i++) {
+      fragment.appendChild(window.pin.createMapPin(array[i]));
+    }
+    window.pin.mapPinsElement.appendChild(fragment);
+  }
+
+  window.map = {
+    renderAdvertisements: renderAdvertisements,
+  };
 
 })();

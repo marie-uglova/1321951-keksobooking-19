@@ -9,13 +9,13 @@
   var mapPinMainPositionLeft = Math.floor(mapPinMainElement.offsetLeft + mapPinMainElement.offsetWidth / 2);
   var mapPinMainPositionTop = Math.floor(mapPinMainElement.offsetTop - mapPinMainElement.offsetHeight / 2);
   var mapPinMainPositionTopTail = Math.floor(mapPinMainElement.offsetTop + PIN_HEIGHT_TAIL);
-  var submit = document.querySelector('.ad-form__submit');
+  var submitButton = document.querySelector('.ad-form__submit');
   var selectRoomNumber = document.querySelector('#room_number');
   var selectCapacity = document.querySelector('#capacity');
 
   inputAddress.value = mapPinMainPositionLeft + ', ' + mapPinMainPositionTop;
 
-  submit.addEventListener('click', function () {
+  submitButton.addEventListener('click', function () {
     validateRoomsAndCapacity(selectRoomNumber);
   });
 
@@ -27,13 +27,13 @@
     }
   }
 
-  function activateMapPinMainCoordinates() {
+  function setMapPinMainCoordinates() {
     inputAddress.value = mapPinMainPositionLeft + ', ' + mapPinMainPositionTopTail;
   }
 
   window.form = {
     mapPinMainElement: mapPinMainElement,
-    activateMapPinMainCoordinates: activateMapPinMainCoordinates,
+    setMapPinMainCoordinates: setMapPinMainCoordinates,
   };
 
 })();
