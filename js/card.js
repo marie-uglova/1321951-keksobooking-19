@@ -2,6 +2,24 @@
 
 (function () {
 
+  var onLoad = function () {
+    generateAdvertisements();
+  };
+
+  var onError = function (errorMessage) {
+    var node = document.createElement('div');
+    node.style = 'z-index: 100; margin: 0 auto; text-align: center; background-color: red;';
+    node.style.position = 'absolute';
+    node.style.left = 0;
+    node.style.right = 0;
+    node.style.fontSize = '30px';
+
+    node.textContent = errorMessage;
+    document.body.insertAdjacentElement('afterbegin', node);
+  };
+
+
+
   var titles = [
     'Заголовок объявления 1',
     'Заголовок объявления 2',
@@ -16,8 +34,8 @@
   var mapPinsWidth = mapPinsElement.offsetWidth;
 
   function generateAdvertisements() {
-    var advertisements = [];
-    for (var i = 0; i < 8; i++) {
+    var advertisements = window.load.loadData(window.load.serverUrl.GET, onLoad, onError);
+    /*for (var i = 0; i < 8; i++) {
       advertisements.push({
         author: {
           avatar: 'img/avatars/user' + (i + 1).toString().padStart(2, '0') + '.png'
@@ -40,11 +58,11 @@
           y: window.utils.randomizeInteger(130, 630)
         }
       });
-    }
+    }*/
     return advertisements;
   }
 
-  var advertisements = generateAdvertisements();
+  //var advertisements = generateAdvertisements();
 
   window.map.renderAdvertisements(advertisements);
 
