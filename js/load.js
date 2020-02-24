@@ -2,7 +2,7 @@
 
 (function () {
 
-  var TIMEOUT_IN_MS = 10000;
+  var TIMEOUT_IN_MS = 1000;
 
   var serverUrl = {
     GET: 'https://js.dump.academy/keksobooking/data',
