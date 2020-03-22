@@ -41,4 +41,5 @@
     serverUrl: serverUrl,
     loadData: loadData,
   };
+
 })();
